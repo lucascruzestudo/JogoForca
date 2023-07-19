@@ -6,15 +6,16 @@ def jogar():
     palavra_secreta = "bolacha"
     acerto = False
     enforcou = False
+    letras_acertadas = ["_","_","_","_","_","_","_"]
 
     while(not acerto and not enforcou):
-        print("Jogando...")
+        print(letras_acertadas)
 
         chute = input("Digite uma letra do alfabeto: ").lower().strip()
 
         for index, letra in enumerate(palavra_secreta):
             if chute == letra:
-                print(f"A letra {chute} existe na palavra, na posição {index+1}!")
+                letras_acertadas[index] = chute
 
 
     print("Fim de jogo!")
