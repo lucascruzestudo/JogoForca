@@ -9,29 +9,28 @@ def jogar():
     erros = 0
     letras_acertadas = ["_","_","_","_","_","_","_"]
 
-    while(not venceu and not enforcou):
+    while(True):
         print(f"\n{letras_acertadas}")
 
         chute = input("Digite uma letra do alfabeto: ").strip().lower()
 
-        if chute in palavra_secreta:
+        if chute in palavra_secreta and len(chute) == 1:
             for index, letra in enumerate(palavra_secreta):
                 if chute == letra:
                     letras_acertadas[index] = chute
         else:
-            print("Letra não existe na palavra secreta!")
+            print("Seu chute não existe na palavra secreta!")
             erros += 1
             print(f"Você possui {6-erros} tentativas")
 
-        venceu = "_" not in letras_acertadas
+            if erros >= 6:
+                print("Acabaram suas tentativas!")
+                break
+
+        if "_" not in letras_acertadas:
+            print("Você ganhou!")
+            break
         
-        enforcou = erros == 6
-
-    if(venceu):
-        print("Você ganhou!")
-    else:
-        print("Acabaram suas tentativas!")
-
     print("Fim de jogo!")
 
 if __name__ == "__main__":
