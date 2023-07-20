@@ -4,20 +4,19 @@ def jogar():
     print("************************************")
 
     palavra_secreta = "bolacha"
-    venceu = False
-    enforcou = False
     erros = 0
-    letras_acertadas = ["_","_","_","_","_","_","_"]
+    letras = ["_" for _ in palavra_secreta]
+
 
     while(True):
-        print(f"\n{letras_acertadas}")
+        print(f"\n{letras}")
 
         chute = input("Digite uma letra do alfabeto: ").strip().lower()
 
         if chute in palavra_secreta and len(chute) == 1:
             for index, letra in enumerate(palavra_secreta):
                 if chute == letra:
-                    letras_acertadas[index] = chute
+                    letras[index] = chute
         else:
             print("Seu chute não existe na palavra secreta!")
             erros += 1
@@ -27,7 +26,7 @@ def jogar():
                 print("Acabaram suas tentativas!")
                 break
 
-        if "_" not in letras_acertadas:
+        if "_" not in letras:
             print("Você ganhou!")
             break
         
