@@ -1,14 +1,27 @@
+from random import randrange
+
 def jogar():
     print("************************************")
     print("*****BEM VINDO AO JOGO DE FORCA*****")
     print("************************************")
 
-    palavra_secreta = "bolacha"
+
+    arquivo = open("./palavras.txt", "r")
+    palavras = []
+
+    for linha in arquivo:
+        palavras.append(linha.strip().lower())
+
+    arquivo.close()
+
+    aleatorio = randrange(0,len(palavras))
+
+    palavra_secreta = palavras[aleatorio]
     erros = 0
     letras = ["_" for _ in palavra_secreta]
 
-
     while(True):
+
         print(f"\n{letras}")
 
         chute = input("Digite uma letra do alfabeto: ").strip().lower()
@@ -27,8 +40,10 @@ def jogar():
                 break
 
         if "_" not in letras:
+            print(f"\n{letras}")
             print("Você ganhou!")
             break
+
         
     print("Fim de jogo!")
 
