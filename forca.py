@@ -1,5 +1,56 @@
 from random import randrange
 
+def jogar():
+    
+    tentativas = 6
+    chutes_enviados = []
+    apresentacao()
+    palavras = ler_palavras_do_arquivo("./palavras.txt")
+    palavra_secreta = escolher_palavra_aleatoria(palavras)
+    caracteres_palavra = inicializador_de_caracteres(palavra_secreta)
+
+    while True:
+
+        exibir_situacao_palavra(caracteres_palavra)
+
+        if len(chutes_enviados) > 0:
+            print(f"CHUTES: {' '.join(chutes_enviados)}")
+
+        chute = receber_chute()
+        print("\n")
+
+        if chute_valido(chute):
+
+            chutes_enviados.append(chute)
+
+            if chute in palavra_secreta:
+                print("Seu chute existe na palavra secreta!")
+                caracteres_palavra = processar_tentativa(chute, palavra_secreta, caracteres_palavra)
+
+            else:
+                print("Seu chute não existe na palavra secreta!")
+                tentativas -= 1
+
+                if tentativas == 0:
+                    mensagem_perdedor()
+                    break
+
+                print(f"Você ainda possui {tentativas} tentativas.")
+
+        else:
+
+            print("Chute inválido. Digite apenas uma letra do alfabeto!")
+        
+        if "_" not in caracteres_palavra:
+            exibir_situacao_palavra(caracteres_palavra)
+            mensagem_ganhador()
+            break
+
+        print("\n")
+
+    print(f"A palavra era {palavra_secreta}!\n")
+    print("Fim de jogo.")
+
 def apresentacao():
     print("************************************")
     print("*****BEM VINDO AO JOGO DE FORCA*****")
@@ -16,62 +67,58 @@ def escolher_palavra_aleatoria(palavras):
     indice_aleatorio = randrange(0, len(palavras))
     return palavras[indice_aleatorio]
 
-def exibir_letras_formatadas(letras_formatadas):
-    palavra_formatada = " ".join(letras_formatadas)
+def exibir_situacao_palavra(caracteres_palavra):
+    palavra_formatada = " ".join(caracteres_palavra)
     print(f"PALAVRA: {palavra_formatada}")
 
-def processar_tentativa(chute, palavra_secreta, letras_formatadas):
+def processar_tentativa(chute, palavra_secreta, caracteres_palavra):
     for index, letra in enumerate(palavra_secreta):
         if chute == letra:
-            letras_formatadas[index] = chute
-    return letras_formatadas
+            caracteres_palavra[index] = chute
+    return caracteres_palavra
 
 def chute_valido(chute):
     return len(chute) == 1 and chute.isalpha()
 
-def jogar():
-    tentativas = 6
-    chutes_enviados = []
-    apresentacao()
-    palavras = ler_palavras_do_arquivo("./palavras.txt")
-    palavra_secreta = escolher_palavra_aleatoria(palavras)
-    letras_formatadas = ["_" for _ in palavra_secreta]
+def inicializador_de_caracteres(palavra_secreta):
+    caracteres = ["_" for _ in palavra_secreta]
+    return caracteres
 
-    while True:
-        exibir_letras_formatadas(letras_formatadas)
+def receber_chute():
+    chute = input("Digite uma letra do alfabeto: ").strip().lower()
+    return chute
 
-        if len(chutes_enviados) > 0:
-            print(f"CHUTES: {' '.join(chutes_enviados)}")
+def mensagem_perdedor():
+    print("\nVOCÊ FOI ENFORCADO!")
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/           \n")
 
-        chute = input("Digite uma letra do alfabeto: ").strip().lower()
-        print("\n")
-
-        if chute_valido(chute):
-            chutes_enviados.append(chute)
-            if chute in palavra_secreta:
-                print("Seu chute existe na palavra secreta!")
-                letras_formatadas = processar_tentativa(chute, palavra_secreta, letras_formatadas)
-            else:
-                print("Seu chute não existe na palavra secreta!")
-                tentativas -= 1
-
-                if tentativas == 0:
-                    print("Acabaram suas tentativas!")
-                    break
-
-                print(f"Você ainda possui {tentativas} tentativas.")
-        else:
-            print("Chute inválido. Digite apenas uma letra do alfabeto!")
-        
-        if "_" not in letras_formatadas:
-            exibir_letras_formatadas(letras_formatadas)
-            print("Você ganhou!")
-            break
-
-        print("\n")
-
-    print(f"A palavra era {palavra_secreta}!\n")
-    print("Fim de jogo.")
+def mensagem_ganhador():
+    print("\nVOCÊ ESCAPOU DA FORCA!")
+    print("       ___________      ")
+    print("      '._==_==_=_.'     ")
+    print("      .-\\:      /-.    ")
+    print("     | (|:.     |) |    ")
+    print("      '-|:.     |-'     ")
+    print("        \\::.    /      ")
+    print("         '::. .'        ")
+    print("           ) (          ")
+    print("         _.' '._        ")
+    print("        '-------'       \n")
 
 if __name__ == "__main__":
     jogar()
