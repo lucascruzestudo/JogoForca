@@ -21,6 +21,7 @@ def jogar():
         else:
             print("Letra não existe na palavra secreta!")
             erros += 1
+            print(f"Você possui {6-erros} tentativas")
 
         venceu = "_" not in letras_acertadas
         
@@ -30,7 +31,7 @@ def jogar():
         print("Você ganhou!")
     else:
         print("Acabaram suas tentativas!")
-        
+
     print("Fim de jogo!")
 
 if __name__ == "__main__":
